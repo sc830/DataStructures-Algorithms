@@ -1,0 +1,310 @@
+// Author : Shelby Cumings
+//
+// Serial number : 12
+//
+// Due Date : 9/28/2022
+// Programming Assignment Number 3
+// Fall 2022 - CS 3358 - 001
+//
+// Instructor: Husain Gholoom.
+//
+// This program performs tests and manipulations on an integer entered
+// by the user. The program asks the user to run, then takes a number as input
+// and performs various tests to determine the integer's properties, then
+// displays the results. The program repeats until terminated by the user.
+
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+class myInt {
+    private:
+        int num;
+    public:
+        myInt();
+        myInt(int);
+        void setNumber(int);
+        int getNumber() const;
+        void integerInput();
+        bool multipleOf(int);
+        bool sumIsEven();
+        long double squareRoot();
+        bool isPrime();
+        bool isPerfect();
+        ~myInt();
+
+};
+
+void welcome();
+int yesOrNo();
+void partA(myInt);
+void partB(myInt);
+void partC(myInt);
+void partD(myInt);
+void partE(myInt);
+void goodbye();     // other prototypes
+
+
+int main () {
+    myInt integer;
+
+    int run = 1;     //  run:      0 - run program         1 - invalid input
+                     //            2 - terminate program   3 - runtime error
+
+    welcome();
+
+    while (run != 2) {
+        run = yesOrNo();        // first user prompt to run or close
+
+        while (run == 1) {        // if input invalid, tries again until valid
+            cout << "ERROR: Input invalid." << endl << endl;
+            run = yesOrNo();
+
+            if (run == 2) {
+
+                break;
+            }
+        }
+
+        if (run == 2) {
+            break;
+        }
+
+
+        integer.integerInput();
+
+        partA(integer);         // evaluate and display
+        partB(integer);
+        partC(integer);
+        partD(integer);
+        partE(integer);
+    }
+
+    goodbye();
+
+}
+
+
+
+// MEMBER FUNCTIONS
+
+myInt::myInt() {            // default constructor
+    num = 0;
+}
+
+myInt::myInt(int number) {      // constructor
+    num = number;
+}
+
+void myInt::setNumber(int number) {
+    num = number;
+}
+
+int myInt::getNumber() const {
+    return num;
+}
+
+void myInt::integerInput() {
+    string input = "";
+    int value = 0;
+
+    cout << "Enter an integer : ";
+    cin >> input;
+    cout << "\n\n";
+
+    stringstream sstream(input);
+
+    sstream >> value;
+
+    setNumber(value);
+}
+
+bool myInt::multipleOf(int checkMultiple) {
+    bool value = false;
+
+    if ((num % checkMultiple) == 0) {
+        value = true;
+    }
+
+    return value;
+}
+
+bool myInt::sumIsEven() {            // returns 0 if even, returns 1 if odd
+    string integerAsString = "";
+    int number = getNumber();
+    char conversion = 'a';
+
+    ostringstream intstream;
+
+    intstream << getNumber();
+    integerAsString = intstream.str();
+
+    int sumOfDigits = 0;
+    bool value;
+
+    for (int i = 0; i < integerAsString.length(); i++) {
+        conversion = integerAsString[i];
+        sumOfDigits = sumOfDigits + (int)conversion;
+    }
+
+    if ((sumOfDigits % 2) == 0) {
+        value = true;                   // number is even
+    }
+    else if ((sumOfDigits % 2) == 0) {
+        value = false;                  // number is odd
+    }
+
+    return value;
+}
+
+long double myInt::squareRoot() {
+    long double value = 0.0;
+    value = sqrtl(static_cast<long double>(num));
+
+    cout << setprecision(42) << 2.0L << "\n";
+
+    return value;
+}
+
+bool myInt::isPrime() {
+    bool value = true;
+
+    for (int i = 2; i < num; i++) {
+        if ((num % i) == 0) {
+            value = false;
+        }
+    }
+
+    return value;
+}
+
+bool myInt::isPerfect() {
+    bool value = false;
+    int sumOfFactors = 0;
+
+    for (int i = 1; i < num; i++) {
+        if ((num % i) == 0) {
+            sumOfFactors = sumOfFactors + i;
+        }
+    }
+
+    if (sumOfFactors == num) {
+        value = true;
+    }
+
+    return value;
+}
+
+myInt::~myInt() {
+    delete &num;
+}
+
+
+
+// ******* NON-MEMBER FUNCTIONS *********
+
+void welcome() {
+    cout << "Welcome to my Integer Manipulations Program. \n\n\n\n";
+}
+
+int yesOrNo() {
+    string user = "";
+    int value = 3;
+
+    cout << "Would you like to run the program? ";
+    cout << "Enter Y to run or N to terminate : ";
+    cin >> user;
+    cout << "\n\n";
+
+    if (user == "Y") {
+        value = 0;                      // run program
+    }
+    else if (user == "y") {
+        value = 0;
+    }
+    else if (user == "N") {
+        value = 2;                      // terminate program
+    }
+    else if (user == "n") {
+        value = 2;
+    }
+    else {
+        value = 1;                      // invalid input
+    }
+
+    return value;
+}
+
+void partA(myInt integer) {
+    int testingMultiple = 0;
+
+    cout << "A   " << integer.getNumber() << " is ";
+
+    // test if multiple of 7
+    testingMultiple = 7;
+    if (integer.multipleOf(testingMultiple) == false) {
+        cout << "not ";
+    }
+    cout << "a multiple of " << testingMultiple << ", ";
+
+    // test if multiple of 11
+    testingMultiple = 11;
+    if (integer.multipleOf(testingMultiple) == false) {
+        cout << "not ";
+    }
+    cout << "a multiple of " << testingMultiple << ", and ";
+
+    // test if multiple of 13
+    testingMultiple = 13;
+    if (integer.multipleOf(testingMultiple) == false) {
+        cout << "not ";
+    }
+    cout << "a multiple of " << testingMultiple  << endl;
+}
+
+
+void partB(myInt integer) {
+    bool even = integer.sumIsEven();
+
+    cout << "B   Sum of its digits is ";
+    if (even == true) {
+        cout << "even" << endl;
+    }
+    else if (even == false) {
+        cout << "odd" << endl;
+    }
+}
+
+
+void partC(myInt integer) {
+    cout << "C   SQRT of " << integer.getNumber() << " is "
+    << integer.squareRoot() << endl;
+}
+
+
+void partD(myInt integer) {
+    cout << "D   " << integer.getNumber() << " is ";
+    if (integer.isPrime() == false) {
+        cout << "not ";
+    }
+    cout << "a prime number" << endl;
+}
+
+
+void partE(myInt integer) {
+    cout << "E   " << integer.getNumber() << " is ";
+    if (integer.isPerfect() == false) {
+        cout << "not ";
+    }
+    cout << "a perfect number" << endl;
+}
+
+
+void goodbye() {
+    cout << "\nThis algorithm is implemented By Shelby Cumings" << endl
+    << "September - 2022" << endl;
+}
