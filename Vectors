@@ -6,16 +6,12 @@
 //
 // Instructor: Husain Gholoom.
 //
-// description
-//
-//
-//
+// Program manipulates and sorts vectors, then repeats or terminates based on user choice.
 
 
 
 #include <iostream>
 #include <cstdlib>
-//#include <cmath>
 #include <iomanip>
 #include <ctime>
 #include <vector>
@@ -87,10 +83,6 @@ int main() {
             displaySortedOccurrence(sorted);
         }
     }
-}
-
-void welcome() {
-
 }
 
 string choice() {            // asks user to run, returns input as string
