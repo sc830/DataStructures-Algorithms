@@ -17,7 +17,6 @@
 #include <iomanip>
 #include <cmath>
 #include <string>
-#include <sstream>
 
 using namespace std;
 
@@ -133,32 +132,16 @@ bool myInt::multipleOf(int checkMultiple) {
     return value;
 }
 
-bool myInt::sumIsEven() {            // returns 0 if even, returns 1 if odd
-    string integerAsString = "";
-    int number = getNumber();
-    char conversion = 'a';
-
-    ostringstream intstream;
-
-    intstream << getNumber();
-    integerAsString = intstream.str();
-
+bool myInt::sumIsEven() {        // returns true (1) if even, false (0) if odd
+    string integerAsString = to_string(num);
     int sumOfDigits = 0;
-    bool value;
 
-    for (int i = 0; i < integerAsString.length(); i++) {
-        conversion = integerAsString[i];
-        sumOfDigits = sumOfDigits + (int)conversion;
+    for (char digitChar : integerAsString) {
+        int digit = digitChar - '0';  // Convert character to integer
+        sumOfDigits += digit;
     }
 
-    if ((sumOfDigits % 2) == 0) {
-        value = true;                   // number is even
-    }
-    else if ((sumOfDigits % 2) == 0) {
-        value = false;                  // number is odd
-    }
-
-    return value;
+    return (sumOfDigits % 2) == 0;
 }
 
 long double myInt::squareRoot() {
